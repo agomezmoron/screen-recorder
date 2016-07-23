@@ -31,7 +31,7 @@ import javax.imageio.ImageIO;
 
 import com.github.agomezmoron.multimedia.capture.ScreenCapture;
 
-public class VideoRecorderUtil {
+class VideoRecorderUtil {
 
     public static String saveIntoDirectory(ScreenCapture capture, File directory) throws IOException {
         if (!directory.exists()) {
