@@ -84,11 +84,6 @@ public class VideoRecorder {
     private static boolean keepFrames = false;
 
     /**
-     * Directory to keep the temporal files for the video.
-     */
-    private static File videoTempDirectory;
-
-    /**
      * Video name.
      */
     private static String videoName = "output.mov";
@@ -165,7 +160,7 @@ public class VideoRecorder {
                 .createMediaLocator(videoPath.getAbsolutePath() + File.separatorChar + videoName)) == null) {
             System.exit(0);
         }
-        jpegImaveToMovie.doIt(width, height, (1000 / captureInterval), new Vector(frames), oml);
+        jpegImaveToMovie.doIt(width, height, (1000 / captureInterval), new Vector<String>(frames), oml);
     }
 
     /**
