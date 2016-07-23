@@ -55,7 +55,7 @@ public class VideoRecorder {
     /**
      * Interval where the images will be capture (in milliseconds).
      */
-    private static int captureInterval = 1000;
+    private static int captureInterval = 100;
 
     /**
      * Screen Width.
@@ -91,7 +91,8 @@ public class VideoRecorder {
     /**
      * Video path where the video will be saved.
      */
-    private static File videoPath;
+    private static File videoPath = (System.getProperty("java.io.tmpdir") != null)
+            ? new File(System.getProperty("java.io.tmpdir")) : new File(".");
 
     /**
      * Strategy to record using {@link Thread}.
@@ -122,21 +123,33 @@ public class VideoRecorder {
 
     }
 
-    public static void stop() throws MalformedURLException {
+    /**
+     * It stops the recording and creates the video.
+     * @return a {@link String} with the path where the video was created or null if the video couldn't be created.
+     * @throws MalformedURLException
+     */
+    public static String stop() throws MalformedURLException {
+        String videoPathString = null;
         if (recording) {
             recording = false;
             if (recordThread.isAlive()) {
                 recordThread.interrupt();
             }
-            createVideo();
+            videoPathString = createVideo();
             frames.clear();
             if (!keepFrames) {
                 deleteDirectory(new File(
                         tempDirectory.getAbsolutePath() + File.separatorChar + videoName.replace(".mov", "")));
             }
         }
+        return videoPathString;
     }
 
+    /**
+     * It deletes recursively a directory.
+     * @param directory to be deleted.
+     * @return true if the directory was deleted successfully.
+     */
     private static boolean deleteDirectory(File directory) {
         if (directory.exists()) {
             File[] files = directory.listFiles();
@@ -153,14 +166,23 @@ public class VideoRecorder {
         return (directory.delete());
     }
 
-    private static void createVideo() throws MalformedURLException {
+    /**
+     * It creates the video.
+     * @return a {@link String} with the path where the video was created or null if the video couldn't be created.
+     * @throws MalformedURLException
+     */
+    private static String createVideo() throws MalformedURLException {
+        String videoPathString = null;
         JpegImagesToMovie jpegImaveToMovie = new JpegImagesToMovie();
         MediaLocator oml;
         if ((oml = JpegImagesToMovie
                 .createMediaLocator(videoPath.getAbsolutePath() + File.separatorChar + videoName)) == null) {
             System.exit(0);
         }
-        jpegImaveToMovie.doIt(width, height, (1000 / captureInterval), new Vector<String>(frames), oml);
+        if (jpegImaveToMovie.doIt(width, height, (1000 / captureInterval), new Vector<String>(frames), oml)) {
+            videoPathString = videoPath.getAbsolutePath() + File.separatorChar + videoName;
+        }
+        return videoPathString;
     }
 
     /**
