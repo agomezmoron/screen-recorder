@@ -64,6 +64,10 @@ Example:
   System.out.println(videoPath);
 ```
 
+###VideoRecorder configuration
+
+You can use the simple configuration or use your custom one defining the x,y coordinates and also the width/height size (by default, it records in full screen. Take care if before starting the video you have configured those options but you run *VideoRecorder.useFullScreen(true);*, the previous configurations will be reverted.
+
 License
 -----------
 The MIT License (MIT)
