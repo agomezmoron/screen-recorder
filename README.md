@@ -9,7 +9,7 @@ Description
 
 Screen recorder is an Open Source library (under the [MIT Licence](LICENSE)) that allows you to record the screen from your Java code.
 
-Only the recording of the screen is allowed into a .mov format, creating videos without audio.
+Nowadays the library "only" records the screen into a .mov format, creating videos without audio using the minimum resources.
 
 Getting started
 -----------
