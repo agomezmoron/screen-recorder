@@ -161,51 +161,12 @@ public class VideoRecorder {
     }
 
     /**
-     * It deletes recursively a directory.
-     * @param directory to be deleted.
-     * @return true if the directory was deleted successfully.
-     */
-    private static boolean deleteDirectory(File directory) {
-        if (directory.exists()) {
-            File[] files = directory.listFiles();
-            if (null != files) {
-                for (int i = 0; i < files.length; i++) {
-                    if (files[i].isDirectory()) {
-                        deleteDirectory(files[i]);
-                    } else {
-                        files[i].delete();
-                    }
-                }
-            }
-        }
-        return (directory.delete());
-    }
-
-    /**
-     * It creates the video.
-     * @return a {@link String} with the path where the video was created or null if the video couldn't be created.
-     * @throws MalformedURLException
-     */
-    private static String createVideo() throws MalformedURLException {
-        String videoPathString = null;
-        JpegImagesToMovie jpegImaveToMovie = new JpegImagesToMovie();
-        MediaLocator oml;
-        if ((oml = JpegImagesToMovie
-                .createMediaLocator(videoPath.getAbsolutePath() + File.separatorChar + videoName)) == null) {
-            System.exit(0);
-        }
-        if (jpegImaveToMovie.doIt(width, height, (1000 / captureInterval), new Vector<String>(frames), oml)) {
-            videoPathString = videoPath.getAbsolutePath() + File.separatorChar + videoName;
-        }
-        return videoPathString;
-    }
-
-    /**
      * It starts recording (if it wasn't started before).
      * @param newVideoName with the output of the video.
      */
     public static void start(String newVideoName) {
         if (!recording) {
+            calculateScreenshotSize();
             videoName = newVideoName;
             if (!videoName.endsWith(".mov")) {
                 videoName += ".mov";
@@ -346,6 +307,46 @@ public class VideoRecorder {
                 height = (int) (Toolkit.getDefaultToolkit().getScreenSize().getHeight() - y);
             }
         }
+    }
+
+    /**
+     * It deletes recursively a directory.
+     * @param directory to be deleted.
+     * @return true if the directory was deleted successfully.
+     */
+    private static boolean deleteDirectory(File directory) {
+        if (directory.exists()) {
+            File[] files = directory.listFiles();
+            if (null != files) {
+                for (int i = 0; i < files.length; i++) {
+                    if (files[i].isDirectory()) {
+                        deleteDirectory(files[i]);
+                    } else {
+                        files[i].delete();
+                    }
+                }
+            }
+        }
+        return (directory.delete());
+    }
+
+    /**
+     * It creates the video.
+     * @return a {@link String} with the path where the video was created or null if the video couldn't be created.
+     * @throws MalformedURLException
+     */
+    private static String createVideo() throws MalformedURLException {
+        String videoPathString = null;
+        JpegImagesToMovie jpegImaveToMovie = new JpegImagesToMovie();
+        MediaLocator oml;
+        if ((oml = JpegImagesToMovie
+                .createMediaLocator(videoPath.getAbsolutePath() + File.separatorChar + videoName)) == null) {
+            System.exit(0);
+        }
+        if (jpegImaveToMovie.doIt(width, height, (1000 / captureInterval), new Vector<String>(frames), oml)) {
+            videoPathString = videoPath.getAbsolutePath() + File.separatorChar + videoName;
+        }
+        return videoPathString;
     }
 
 }
