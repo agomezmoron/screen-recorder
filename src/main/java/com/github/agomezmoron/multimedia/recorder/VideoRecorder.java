@@ -84,9 +84,24 @@ public class VideoRecorder {
     private static boolean keepFrames = false;
 
     /**
+     * Flag to know if the video will be in full screen or not.
+     */
+    private static boolean useFullScreen = true;
+
+    /**
      * Video name.
      */
     private static String videoName = "output.mov";
+
+    /**
+     * X coordinate.
+     */
+    private static int x = 0;
+
+    /**
+     * y coordinate.
+     */
+    private static int y = 0;
 
     /**
      * Video path where the video will be saved.
@@ -105,7 +120,7 @@ public class VideoRecorder {
             try {
                 rt = new Robot();
                 do {
-                    capture = new ScreenCapture(rt.createScreenCapture(new Rectangle(width, height)));
+                    capture = new ScreenCapture(rt.createScreenCapture(new Rectangle(x, y, width, height)));
                     frames.add(VideoRecorderUtil.saveIntoDirectory(capture, new File(
                             tempDirectory.getAbsolutePath() + File.separatorChar + videoName.replace(".mov", ""))));
                     Thread.sleep(captureInterval);
@@ -209,10 +224,10 @@ public class VideoRecorder {
     }
 
     /**
-     * @param captureInterval the captureInterval to set.
+     * @param newCaptureInterval the captureInterval to set.
      */
-    public static void setCaptureInterval(int captureInterval) {
-        VideoRecorder.captureInterval = captureInterval;
+    public static void setCaptureInterval(int newCaptureInterval) {
+        captureInterval = newCaptureInterval;
     }
 
     /**
@@ -223,10 +238,15 @@ public class VideoRecorder {
     }
 
     /**
-     * @param width the width to set.
+     * @param newWidth the width to set.
      */
-    public static void setWidth(int width) {
-        VideoRecorder.width = width;
+    public static void setWidth(int newWidth) {
+        if (newWidth >= 0 && newWidth <= Toolkit.getDefaultToolkit().getScreenSize().getWidth()) {
+            width = newWidth;
+            if (width < Toolkit.getDefaultToolkit().getScreenSize().getWidth()) {
+                useFullScreen = false;
+            }
+        }
     }
 
     /**
@@ -237,10 +257,15 @@ public class VideoRecorder {
     }
 
     /**
-     * @param height the height to set.
+     * @param newHeight the height to set.
      */
-    public static void setHeight(int height) {
-        VideoRecorder.height = height;
+    public static void setHeight(int newHeight) {
+        if (newHeight >= 0 && newHeight <= Toolkit.getDefaultToolkit().getScreenSize().getHeight()) {
+            height = newHeight;
+            if (height < Toolkit.getDefaultToolkit().getScreenSize().getHeight()) {
+                useFullScreen = false;
+            }
+        }
     }
 
     /**
@@ -281,13 +306,45 @@ public class VideoRecorder {
 
     /**
      * It sets the width and height value to the full screen size, ignoring previous setWidth and setHeight calls.
-     * @param useFullScreen if you want to record the full screen or not. If false, the recorder will record the 
+     * @param newUseFullScreen if you want to record the full screen or not. If false, the recorder will record the 
      */
-    public static void fullScreenMode(boolean useFullScreen) {
+    public static void fullScreenMode(boolean newUseFullScreen) {
+        useFullScreen = newUseFullScreen;
+    }
+
+    /**
+     * It sets the x coordinate.
+     * @param newX to be used.
+     * @param newY to be used.
+     */
+    public static void setCoordinates(int newX, int newY) {
+        if (newX >= 0 && newX <= Toolkit.getDefaultToolkit().getScreenSize().getWidth() && newY >= 0
+                && newY <= Toolkit.getDefaultToolkit().getScreenSize().getHeight()) {
+            x = newX;
+            y = newY;
+        }
+    }
+
+    /**
+     * It calculates the screenshot size before recording. If the useFullScreen was defined, the width, height or x
+     */
+    private static void calculateScreenshotSize() {
+        // if fullScreen was set, all the configuration will be changed back.
         if (useFullScreen) {
             Dimension size = Toolkit.getDefaultToolkit().getScreenSize();
             width = (int) size.getWidth();
-            width = (int) size.getWidth();
+            height = (int) size.getHeight();
+            x = 0;
+            y = 0;
+        } else {
+            // we have to check if x+width <= Toolkit.getDefaultToolkit().getScreenSize().getWidth() and the same for
+            // the height
+            if (x + width > Toolkit.getDefaultToolkit().getScreenSize().getWidth()) {
+                width = (int) (Toolkit.getDefaultToolkit().getScreenSize().getWidth() - x);
+            }
+            if (y + height > Toolkit.getDefaultToolkit().getScreenSize().getHeight()) {
+                height = (int) (Toolkit.getDefaultToolkit().getScreenSize().getHeight() - y);
+            }
         }
     }
 
