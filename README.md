@@ -59,7 +59,7 @@ Example:
   VideoRecorder.setVideoDirectory("~/"); // home
   VideoRecorder.keepFramesInTempDirectory(false);
   VideoRecorder.start("test");
-  Thread.sleep(5000);
+  // EXECUTE ALL YOU WANT TO BE RECORDED
   String videoPath = VideoRecorder.stop(); // video created
   System.out.println(videoPath);
 ```
