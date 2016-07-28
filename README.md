@@ -3,6 +3,7 @@ Java screen recorder library
 
 <img src="resources/images/java-icon.png" height="128" />
 <img src="resources/images/play-icon.png" height="128" />
+<img src="resources/images/testng-logo.png" height="128" />
 
 Description
 -----------
