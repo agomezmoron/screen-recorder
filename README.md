@@ -54,19 +54,45 @@ It's very easy:
 Example:
 
  ```
-  VideoRecorder.setCaptureInterval(50); // 20 frames/sec
-  VideoRecorder.fullScreenMode(true);
-  VideoRecorder.setVideoDirectory("~/"); // home
-  VideoRecorder.keepFramesInTempDirectory(false);
+  // configuration
+  VideoRecorderConfiguration.setCaptureInterval(50); // 20 frames/sec
+  VideoRecorderConfiguration.wantToUseFullScreen(true);
+  VideoRecorderConfiguration.setVideoDirectory("~/"); // home
+  VideoRecorderConfiguration.setKeepFrames(false);
+  // you can also change the x,y using VideoRecorderConfiguration.setCoordinates(10,20);
+  
   VideoRecorder.start("test");
   // EXECUTE ALL YOU WANT TO BE RECORDED
   String videoPath = VideoRecorder.stop(); // video created
   System.out.println(videoPath);
 ```
 
+###How to use in TestNG
+
+For TestNG you have a configuration class called *VideoRecorderTestNGConfiguration* which extends from *VideoRecorderConfiguration*. So, through it, you can configure the VideoRecorder and also some specific TestNG parameters:
+ 
+ - VideoRecorderTestNGConfiguration.wantToRecordTest(true/false); // if you want to record your tests or not. By default is true.
+ - VideoRecorderTestNGConfiguration.wantToKeepVideoOnSuccess(true/false); // if you want to keep the video once the test finished successfully. By default is false.
+ - - VideoRecorderTestNGConfiguration.wantToKeepVideoOnFailure(true/false); // if you want to keep the video once the test  failed. By default is true.
+ 
+To enable the recordin you only have to add the listener like:
+
+```
+   @Listeners({VideoRecorderListener.class})
+   public class TestNGClass {
+   
+   	// if you want to configure the suite from each class
+   	@BeforeClass
+   	public void beforeClass() {
+   		VideoRecorderTestNGConfiguration.wantToKeepVideoOnSuccess(true);
+   		VideoRecorderTestNGConfiguration.setCaptureInterval(20);
+   	}
+    .....
+   }
+```
 ###VideoRecorder configuration
 
-You can use the simple configuration or use your custom one defining the x,y coordinates and also the width/height size (by default, it records in full screen. Take care if before starting the video you have configured those options but you run *VideoRecorder.useFullScreen(true);*, the previous configurations will be reverted.
+You can use the simple configuration or use your custom one defining the x,y coordinates and also the width/height size (by default, it records in full screen. Take care if before starting the video you have configured those options but you run *VideoRecorderConfiguration.wantToUseFullScreen(true);*, the previous configurations will be reverted.
 
 License
 -----------
