@@ -36,7 +36,7 @@ Getting started
     <dependency>
       <groupId>com.github.agomezmoron</groupId>
       <artifactId>screen-recorder</artifactId>
-      <version>0.0.2</version>
+      <version>0.0.3</version>
     </dependency>
     ```
     
