@@ -198,7 +198,6 @@ public class JpegImagesToMovie implements ControllerListener, DataSinkListener {
      * Controller Listener.
      */
     public void controllerUpdate(ControllerEvent evt) {
-
         if (evt instanceof ConfigureCompleteEvent || evt instanceof RealizeCompleteEvent
                 || evt instanceof PrefetchCompleteEvent) {
             synchronized (waitSync) {
