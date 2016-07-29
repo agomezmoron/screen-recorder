@@ -58,7 +58,7 @@ Example:
   // configuration
   VideoRecorderConfiguration.setCaptureInterval(50); // 20 frames/sec
   VideoRecorderConfiguration.wantToUseFullScreen(true);
-  VideoRecorderConfiguration.setVideoDirectory("~/"); // home
+  VideoRecorderConfiguration.setVideoDirectory(new File("~/")); // home
   VideoRecorderConfiguration.setKeepFrames(false);
   // you can also change the x,y using VideoRecorderConfiguration.setCoordinates(10,20);
   
