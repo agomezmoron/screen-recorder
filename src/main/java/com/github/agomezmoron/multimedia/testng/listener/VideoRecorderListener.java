@@ -58,7 +58,6 @@ public class VideoRecorderListener extends TestListenerAdapter {
      */
     @Override
     public void onTestStart(ITestResult result) {
-        System.out.println("TEST START");
         if (VideoRecorderTestNGConfiguration.wantToRecordTest()) {
             VideoRecorder.start(result.getMethod().getMethodName() + "_" + new Date().getTime());
         }
@@ -68,7 +67,6 @@ public class VideoRecorderListener extends TestListenerAdapter {
      * @see {@link TestListenerAdapter#onTestSuccess(ITestResult)}
      */
     public void onTestSuccess(ITestResult result) {
-        System.out.println("ENDS");
         File createdVideo = endVideo(result);
         if (createdVideo != null && !VideoRecorderTestNGConfiguration.wantToKeepVideoOnSuccess()) {
             createdVideo.delete();
