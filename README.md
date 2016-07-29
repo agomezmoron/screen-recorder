@@ -36,7 +36,7 @@ Getting started
     <dependency>
       <groupId>com.github.agomezmoron</groupId>
       <artifactId>screen-recorder</artifactId>
-      <version>0.0.2</version>
+      <version>0.0.3</version>
     </dependency>
     ```
     
@@ -58,7 +58,7 @@ Example:
   // configuration
   VideoRecorderConfiguration.setCaptureInterval(50); // 20 frames/sec
   VideoRecorderConfiguration.wantToUseFullScreen(true);
-  VideoRecorderConfiguration.setVideoDirectory("~/"); // home
+  VideoRecorderConfiguration.setVideoDirectory(new File("~/")); // home
   VideoRecorderConfiguration.setKeepFrames(false);
   // you can also change the x,y using VideoRecorderConfiguration.setCoordinates(10,20);
   
@@ -74,7 +74,7 @@ For TestNG you have a configuration class called *VideoRecorderTestNGConfigurati
  
  - VideoRecorderTestNGConfiguration.wantToRecordTest(true/false); // if you want to record your tests or not. By default is true.
  - VideoRecorderTestNGConfiguration.wantToKeepVideoOnSuccess(true/false); // if you want to keep the video once the test finished successfully. By default is false.
- - - VideoRecorderTestNGConfiguration.wantToKeepVideoOnFailure(true/false); // if you want to keep the video once the test  failed. By default is true.
+ - VideoRecorderTestNGConfiguration.wantToKeepVideoOnFailure(true/false); // if you want to keep the video once the test  failed. By default is true.
  
 To enable the recordin you only have to add the listener like:
 
