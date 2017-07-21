@@ -73,7 +73,7 @@ public class VideoRecorder implements VideoRecorderEventListener {
     
     private static Thread currentThread;
     
-    private static List<VideoRecorderEventObject> listeners = new ArrayList<VideoRecorderEventObject>();
+    private static List<VideoRecorderEventListener> listeners = new ArrayList<VideoRecorderEventListener>();
     
    
     /**
@@ -95,7 +95,7 @@ public class VideoRecorder implements VideoRecorderEventListener {
                         VideoRecorderEventObject videoRecorderEvObj = new VideoRecorderEventObject (this,capture);
                         
                         //Exploring all the listeners
-                        for(VideoRecorderEventObject vr : listeners){
+                        for(VideoRecorderEventListener vr : listeners){
                         	
                         	//Creating the object that will be sent
                         	VideoRecorderEventListener listener = (VideoRecorderEventListener) vr;
@@ -248,6 +248,13 @@ public class VideoRecorder implements VideoRecorderEventListener {
 
 	@Override
 	public void FrameAdded(VideoRecorderEventObject args) {
+	}
+	
+	/**
+	 * It adds the listeners to the list
+	 * @param args
+	 */
+	public static void addVideoRecorderEventListener(VideoRecorderEventListener args){
 		listeners.add(args);
 	}
 
