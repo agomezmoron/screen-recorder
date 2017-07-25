@@ -49,7 +49,7 @@ import com.github.agomezmoron.multimedia.recorder.listener.VideoRecorderEventObj
  * @author Alejandro Gomez <agommor@gmail.com>
  *
  */
-public class VideoRecorder implements VideoRecorderEventListener {
+public class VideoRecorder {
 
     /**
      * Status of the recorder.
@@ -99,7 +99,7 @@ public class VideoRecorder implements VideoRecorderEventListener {
                         	
                         	//Creating the object that will be sent
                         	VideoRecorderEventListener listener = (VideoRecorderEventListener) vr;
-                        	listener.FrameAdded(videoRecorderEvObj);
+                        	listener.frameAdded(videoRecorderEvObj);
                         }
                         
                         frames.add(VideoRecorderUtil.saveIntoDirectory(capture, new File(
@@ -246,9 +246,6 @@ public class VideoRecorder implements VideoRecorderEventListener {
         return videoPathString;
     }
 
-	@Override
-	public void FrameAdded(VideoRecorderEventObject args) {
-	}
 	
 	/**
 	 * It adds the listeners to the list
