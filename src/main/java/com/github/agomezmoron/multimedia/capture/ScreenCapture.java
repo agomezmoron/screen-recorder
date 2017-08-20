@@ -25,6 +25,7 @@
 package com.github.agomezmoron.multimedia.capture;
 
 import java.awt.image.BufferedImage;
+import java.io.Serializable;
 
 /**
  * It models a capture from the screen.
@@ -32,9 +33,14 @@ import java.awt.image.BufferedImage;
  * @author Alejandro Gomez <agommor@gmail.com>
  *
  */
-public class ScreenCapture {
+public class ScreenCapture implements Serializable{
 
     /**
+	 * Auto generated serial version UID
+	 */
+	private static final long serialVersionUID = 2843139292448505412L;
+	
+	/**
      * Capture in a {@link BufferedImage} instance.
      */
     private BufferedImage source;
