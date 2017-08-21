@@ -25,7 +25,15 @@
 package com.github.agomezmoron.multimedia.capture;
 
 import java.awt.image.BufferedImage;
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.io.Serializable;
+
+import javax.imageio.ImageIO;
 
 /**
  * It models a capture from the screen.
@@ -87,5 +95,39 @@ public class ScreenCapture implements Serializable{
             width = this.source.getWidth();
         }
         return width;
+    }
+    
+    /**
+     * Custom serializable write function
+     * @param o
+     * @throws IOException
+     */
+    private void writeObject(ObjectOutputStream o)
+    	    throws IOException { 
+    	
+    	//Converts the buffered image in a byte array
+    	byte[] imageInByte;
+    	ByteArrayOutputStream baos = new ByteArrayOutputStream();
+    	ImageIO.write(this.source, "jpg", baos);
+    	baos.flush();
+        imageInByte = baos.toByteArray();
+        baos.close();
+    	
+        o.write(imageInByte);
+    }
+    
+    /**
+     * Custom serializable read function
+     * @param o
+     * @throws IOException
+     * @throws ClassNotFoundException
+     */
+    private void readObject(ObjectInputStream o)
+    	    throws IOException, ClassNotFoundException {  
+    	
+    	 //Converts the byte array in a buffered image
+        InputStream in = new ByteArrayInputStream((byte[]) o.readObject());
+        this.source = ImageIO.read(in);
+    	
     }
 }
