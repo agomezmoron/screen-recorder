@@ -40,6 +40,8 @@ import javax.media.MediaLocator;
 import com.github.agomezmoron.multimedia.capture.ScreenCapture;
 import com.github.agomezmoron.multimedia.external.JpegImagesToMovie;
 import com.github.agomezmoron.multimedia.recorder.configuration.VideoRecorderConfiguration;
+import com.github.agomezmoron.multimedia.recorder.listener.VideoRecorderEventListener;
+import com.github.agomezmoron.multimedia.recorder.listener.VideoRecorderEventObject;
 
 /**
  * It models the video recorder.
@@ -68,9 +70,12 @@ public class VideoRecorder {
      * Video name.
      */
     private static String videoName = "output.mov";
-
+    
     private static Thread currentThread;
-
+    
+    private static List<VideoRecorderEventListener> listeners = new ArrayList<VideoRecorderEventListener>();
+    
+   
     /**
      * Strategy to record using {@link Thread}.
      */
@@ -86,6 +91,17 @@ public class VideoRecorder {
                         capture = new ScreenCapture(rt.createScreenCapture(new Rectangle(
                                 VideoRecorderConfiguration.getX(), VideoRecorderConfiguration.getY(),
                                 VideoRecorderConfiguration.getWidth(), VideoRecorderConfiguration.getHeight())));
+                        
+                        VideoRecorderEventObject videoRecorderEvObj = new VideoRecorderEventObject (this,capture);
+                        
+                        //Exploring all the listeners
+                        for(VideoRecorderEventListener vr : listeners){
+                        	
+                        	//Creating the object that will be sent
+                        	VideoRecorderEventListener listener = (VideoRecorderEventListener) vr;
+                        	listener.frameAdded(videoRecorderEvObj);
+                        }
+                        
                         frames.add(VideoRecorderUtil.saveIntoDirectory(capture, new File(
                                 VideoRecorderConfiguration.getTempDirectory().getAbsolutePath() + File.separatorChar
                                         + videoName.replace(".mov", ""))));
@@ -229,5 +245,14 @@ public class VideoRecorder {
         }
         return videoPathString;
     }
+
+	
+	/**
+	 * It adds the listeners to the list
+	 * @param args
+	 */
+	public static void addVideoRecorderEventListener(VideoRecorderEventListener args){
+		listeners.add(args);
+	}
 
 }
