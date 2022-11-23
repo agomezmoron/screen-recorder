@@ -3,17 +3,17 @@
  * The MIT License (MIT)
  *
  * Copyright (c) 2016 Alejandro Gómez Morón
- * 
+ *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
  * in the Software without restriction, including without limitation the rights
  * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
  * copies of the Software, and to permit persons to whom the Software is
  * furnished to do so, subject to the following conditions:
- * 
+ *
  * The above copyright notice and this permission notice shall be included in all
  * copies or substantial portions of the Software.
- * 
+ *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
  * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
@@ -24,6 +24,7 @@
  */
 package com.github.agomezmoron.multimedia.recorder;
 
+import com.sun.jna.Platform;
 import java.awt.Dimension;
 import java.awt.Rectangle;
 import java.awt.Robot;
@@ -45,7 +46,7 @@ import com.github.agomezmoron.multimedia.recorder.listener.VideoRecorderEventObj
 
 /**
  * It models the video recorder.
- * 
+ *
  * @author Alejandro Gomez <agommor@gmail.com>
  *
  */
@@ -70,12 +71,12 @@ public class VideoRecorder {
      * Video name.
      */
     private static String videoName = "output.mov";
-    
+
     private static Thread currentThread;
-    
+
     private static List<VideoRecorderEventListener> listeners = new ArrayList<VideoRecorderEventListener>();
-    
-   
+
+
     /**
      * Strategy to record using {@link Thread}.
      */
@@ -91,17 +92,17 @@ public class VideoRecorder {
                         capture = new ScreenCapture(rt.createScreenCapture(new Rectangle(
                                 VideoRecorderConfiguration.getX(), VideoRecorderConfiguration.getY(),
                                 VideoRecorderConfiguration.getWidth(), VideoRecorderConfiguration.getHeight())));
-                        
+
                         VideoRecorderEventObject videoRecorderEvObj = new VideoRecorderEventObject (this,capture);
-                        
+
                         //Exploring all the listeners
                         for(VideoRecorderEventListener vr : listeners){
-                        	
+
                         	//Creating the object that will be sent
                         	VideoRecorderEventListener listener = (VideoRecorderEventListener) vr;
                         	listener.frameAdded(videoRecorderEvObj);
                         }
-                        
+
                         frames.add(VideoRecorderUtil.saveIntoDirectory(capture, new File(
                                 VideoRecorderConfiguration.getTempDirectory().getAbsolutePath() + File.separatorChar
                                         + videoName.replace(".mov", ""))));
@@ -234,8 +235,13 @@ public class VideoRecorder {
             VideoRecorderConfiguration.getVideoDirectory().mkdirs();
         }
         MediaLocator oml;
-        if ((oml = JpegImagesToMovie.createMediaLocator(VideoRecorderConfiguration.getVideoDirectory().getAbsolutePath()
-                + File.separatorChar + videoName)) == null) {
+        String fileURL;
+        if (Platform.isWindows()) {
+            fileURL = "file://" + VideoRecorderConfiguration.getVideoDirectory().getPath() + File.separatorChar + videoName;
+        } else {
+            fileURL = VideoRecorderConfiguration.getVideoDirectory().getAbsolutePath() + File.separatorChar + videoName;
+        }
+        if ((oml = JpegImagesToMovie.createMediaLocator(fileURL)) == null) {
             System.exit(0);
         }
         if (jpegImaveToMovie.doIt(VideoRecorderConfiguration.getWidth(), VideoRecorderConfiguration
@@ -246,7 +252,7 @@ public class VideoRecorder {
         return videoPathString;
     }
 
-	
+
 	/**
 	 * It adds the listeners to the list
 	 * @param args
