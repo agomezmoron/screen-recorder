@@ -20,23 +20,23 @@ Getting started
 
 1. Add the repository:
 ```   
-  <repositories>
-		<repository>
-			<id>screen-recorder</id>
-			<name>Java screen recorder library by agomezmoron</name>
-			<url>https://raw.github.com/agomezmoron/screen-recorder/mvn-repo</url>
-		</repository>
-	</repositories>
+<repositories>
+    <repository>
+        <id>screen-recorder</id>
+        <name>Java screen recorder library by agomezmoron</name>
+        <url>https://raw.github.com/agomezmoron/screen-recorder/mvn-repo</url>
+    </repository>
+</repositories>
 ```
 
 2. Add the following maven dependency in your `pom.xml` file:
 
 ```
-    <dependency>
-      <groupId>com.github.agomezmoron</groupId>
-      <artifactId>screen-recorder</artifactId>
-      <version>0.0.3</version>
-    </dependency>
+<dependency>
+    <groupId>com.github.agomezmoron</groupId>
+    <artifactId>screen-recorder</artifactId>
+    <version>0.0.3</version>
+</dependency>
 ```
     
 ### How to use
