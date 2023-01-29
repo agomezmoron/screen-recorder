@@ -10,17 +10,16 @@ Description
 
 Screen recorder is an Open Source library (under the [MIT Licence](LICENSE)) that allows you to record the screen from your Java code.
 
-Nowadays the library "only" records the screen into a .mov format, creating videos without audio using the minimum resources.
+Nowadays, the library "only" records the screen into a .mov format, creating videos without audio using the minimum resources.
 
 Getting started
 -----------
 
-###Adding dependencies
+### Adding dependencies
 
---
- 1. Add the repository:
 
-   ```xml
+1. Add the repository:
+```   
   <repositories>
 		<repository>
 			<id>screen-recorder</id>
@@ -28,25 +27,25 @@ Getting started
 			<url>https://raw.github.com/agomezmoron/screen-recorder/mvn-repo</url>
 		</repository>
 	</repositories>
-    ```
- 2. Adding the following maven dependency in you ```pom.xml``` file:
+```
 
+2. Add the following maven dependency in your `pom.xml` file:
 
-    ```xml 
+```
     <dependency>
       <groupId>com.github.agomezmoron</groupId>
       <artifactId>screen-recorder</artifactId>
       <version>0.0.3</version>
     </dependency>
-    ```
+```
     
-###How to use
+### How to use
 
 It's very easy: 
 
  1. Configure the video interval in ms: by default it is 100ms (10 frames/sec).
  2. Configure the width/height or the full screen mode: by default it's full screen mode.
- 3. Configure the video directoy where the video will be saved: by default is the temporal folder.
+ 3. Configure the video directory where the video will be saved: by default is the temporal folder.
  4. Set the *keepFrames* option into true/false if you want to keep the frames as .jpeg files: by defaul the library doesn't keep the frames.
  5. Call the *start* method passing the video name (ex: "myVideo" -> output: myVideo.mov).
  6. Perform your actions...
@@ -54,7 +53,7 @@ It's very easy:
 
 Example:
 
- ```
+```
   // configuration
   VideoRecorderConfiguration.setCaptureInterval(50); // 20 frames/sec
   VideoRecorderConfiguration.wantToUseFullScreen(true);
@@ -68,7 +67,7 @@ Example:
   System.out.println(videoPath);
 ```
 
-###How to use in TestNG
+### How to use in TestNG
 
 For TestNG you have a configuration class called *VideoRecorderTestNGConfiguration* which extends from *VideoRecorderConfiguration*. So, through it, you can configure the VideoRecorder and also some specific TestNG parameters:
  
@@ -76,7 +75,7 @@ For TestNG you have a configuration class called *VideoRecorderTestNGConfigurati
  - VideoRecorderTestNGConfiguration.wantToKeepVideoOnSuccess(true/false); // if you want to keep the video once the test finished successfully. By default is false.
  - VideoRecorderTestNGConfiguration.wantToKeepVideoOnFailure(true/false); // if you want to keep the video once the test  failed. By default is true.
  
-To enable the recordin you only have to add the listener like:
+To enable the recording you only have to add the listener like:
 
 ```
    @Listeners({VideoRecorderListener.class})
@@ -91,7 +90,8 @@ To enable the recordin you only have to add the listener like:
     .....
    }
 ```
-###VideoRecorder configuration
+
+### VideoRecorder configuration
 
 You can use the simple configuration or use your custom one defining the x,y coordinates and also the width/height size (by default, it records in full screen. Take care if before starting the video you have configured those options but you run *VideoRecorderConfiguration.wantToUseFullScreen(true);*, the previous configurations will be reverted.
 
