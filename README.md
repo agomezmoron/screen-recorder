@@ -17,9 +17,8 @@ Getting started
 
 ### Adding dependencies
 
-
 1. Add the repository:
-```   
+```xml
 <repositories>
     <repository>
         <id>screen-recorder</id>
@@ -28,10 +27,9 @@ Getting started
     </repository>
 </repositories>
 ```
-
 2. Add the following maven dependency in your `pom.xml` file:
 
-```
+```xml
 <dependency>
     <groupId>com.github.agomezmoron</groupId>
     <artifactId>screen-recorder</artifactId>
@@ -53,7 +51,7 @@ It's very easy:
 
 Example:
 
-```
+```java
   // configuration
   VideoRecorderConfiguration.setCaptureInterval(50); // 20 frames/sec
   VideoRecorderConfiguration.wantToUseFullScreen(true);
@@ -77,7 +75,7 @@ For TestNG you have a configuration class called *VideoRecorderTestNGConfigurati
  
 To enable the recording you only have to add the listener like:
 
-```
+```java
    @Listeners({VideoRecorderListener.class})
    public class TestNGClass {
    
@@ -87,7 +85,7 @@ To enable the recording you only have to add the listener like:
    		VideoRecorderTestNGConfiguration.wantToKeepVideoOnSuccess(true);
    		VideoRecorderTestNGConfiguration.setCaptureInterval(20);
    	}
-    .....
+    // .....
    }
 ```
 
